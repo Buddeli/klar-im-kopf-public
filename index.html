@@ -4,72 +4,729 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klar im Kopf – Begleitung bei Zwangsstörungen</title>
+  <meta name="description" content="Klar im Kopf – dein täglicher Begleiter bei Zwangsstörungen (OCD). Mit KI-Begleiter Claro, ERP-Übungen und evidenzbasierten Techniken." />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f7ff; color: #1a1a2e; }
-    header { background: linear-gradient(135deg, #6c63ff, #48cfad); color: white; padding: 60px 20px; text-align: center; }
-    header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    header p { font-size: 1.2rem; opacity: 0.9; }
-    .badge { margin-top: 30px; }
-    .badge a { display: inline-block; background: black; color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-size: 1rem; }
-    section { max-width: 800px; margin: 50px auto; padding: 0 20px; }
-    h2 { font-size: 1.6rem; margin-bottom: 20px; color: #6c63ff; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
-    .card h3 { margin-bottom: 10px; font-size: 1.1rem; }
-    .card p { color: #555; font-size: 0.95rem; line-height: 1.6; }
-    .disclaimer { background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px 20px; border-radius: 8px; margin: 40px 0; font-size: 0.95rem; line-height: 1.6; }
-    .crisis { background: #ffe0e0; border-left: 4px solid #e74c3c; padding: 16px 20px; border-radius: 8px; margin: 20px 0; font-size: 0.95rem; line-height: 1.8; }
-    footer { text-align: center; padding: 40px 20px; color: #888; font-size: 0.9rem; }
-    footer a { color: #6c63ff; text-decoration: none; margin: 0 10px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #6c63ff;
+      --teal: #48cfad;
+      --dark: #1a1a2e;
+      --grey: #f8f7ff;
+      --text: #333;
+      --light: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--light);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 20px rgba(0,0,0,0.08);
+    }
+
+    nav .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--purple);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--purple); }
+
+    nav .cta-btn {
+      background: var(--purple);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    nav .cta-btn:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(108,99,255,0.3), transparent 70%);
+      top: -100px; left: -100px;
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(72,207,173,0.2), transparent 70%);
+      bottom: -50px; right: -50px;
+      border-radius: 50%;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.2);
+      border: 1px solid rgba(108,99,255,0.4);
+      color: #a89dff;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 40px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(108,99,255,0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 60px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* SECTIONS */
+    section { padding: 100px 20px; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(108,99,255,0.1);
+      color: var(--purple);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: #666;
+      max-width: 560px;
+    }
+
+    /* FEATURES */
+    .features { background: var(--grey); }
+
+    .features-header { text-align: center; margin-bottom: 60px; }
+    .features-header .section-sub { margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* CLARO */
+    .claro-section {
+      background: linear-gradient(135deg, var(--dark), #16213e);
+    }
+
+    .claro-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .claro-text .section-title { color: white; }
+    .claro-text .section-sub { color: rgba(255,255,255,0.65); }
+
+    .claro-features {
+      list-style: none;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .claro-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.97rem;
+    }
+
+    .claro-features li::before {
+      content: '✓';
+      width: 24px; height: 24px;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .chat-preview {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 28px;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .chat-name { color: white; font-weight: 600; font-size: 0.95rem; }
+    .chat-status { color: var(--teal); font-size: 0.8rem; }
+
+    .chat-messages { display: flex; flex-direction: column; gap: 14px; }
+
+    .msg {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .msg-user {
+      background: var(--purple);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-claro {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.9);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    /* PRICING */
+    .pricing { background: var(--grey); }
+    .pricing-header { text-align: center; margin-bottom: 60px; }
+    .pricing-header .section-sub { margin: 0 auto; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(135deg, var(--purple), #8b82ff);
+      color: white;
+      box-shadow: 0 8px 40px rgba(108,99,255,0.4);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--teal);
+      color: white;
+      padding: 4px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .pricing-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .pricing-card.featured .pricing-name { color: white; }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .pricing-card.featured .pricing-price { color: white; }
+
+    .pricing-period {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 28px;
+    }
+
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.7); }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.9); }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .pricing-card.featured .pricing-features li::before { color: white; }
+
+    /* DISCLAIMER */
+    .disclaimer-section { background: white; padding: 60px 20px; }
+
+    .disclaimer-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff8e1;
+      border-left: 4px solid #ffc107;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+    }
+
+    .crisis-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff0f0;
+      border-left: 4px solid #e74c3c;
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+
+    .disclaimer-box p, .crisis-box p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .crisis-box strong { color: #c0392b; }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.6);
+      padding: 48px 20px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .footer-tagline {
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav { padding: 16px 20px; }
+      .claro-inner { grid-template-columns: 1fr; gap: 40px; }
+      section { padding: 70px 20px; }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Klar im Kopf</h1>
-  <p>Dein täglicher Begleiter bei Zwangsstörungen (OCD)</p>
-  <div class="badge">
-    <a href="#">Bald im App Store</a>
-  </div>
-</header>
+<!-- NAV -->
+<nav>
+  <div class="logo">Klar im Kopf</div>
+  <ul>
+    <li><a href="#funktionen">Funktionen</a></li>
+    <li><a href="#claro">Claro</a></li>
+    <li><a href="#preise">Preise</a></li>
+  </ul>
+  <a href="#" class="cta-btn">Im App Store</a>
+</nav>
 
-<section>
-  <h2>Was dich erwartet</h2>
-  <div class="features">
-    <div class="card">
-      <h3>Trainingsbereich</h3>
-      <p>ERP, Achtsamkeit, kognitive Techniken und Kurzübungen für schwierige Momente – evidenzbasiert und strukturiert.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🧠 Evidenzbasierte OCD-Unterstützung</div>
+    <h1>Kennst du das Gefühl, wenn ein Gedanke <span>nicht loslässt?</span></h1>
+    <p>Klar im Kopf gibt dir bewährte Werkzeuge aus der Verhaltenstherapie – und Claro, deinen KI-Begleiter, der rund um die Uhr für dich da ist.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">🍎 Bald im App Store</a>
+      <a href="#funktionen" class="btn-secondary">Mehr erfahren</a>
     </div>
-    <div class="card">
-      <h3>Claro – KI-Begleiter</h3>
-      <p>Rund um die Uhr verfügbar. Geführte Übungen, Grounding-Techniken und Psychoedukation – wann immer du ihn brauchst.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">ERP</div>
+        <div class="stat-label">Wirksamste OCD-Methode</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Claro ist immer da</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Gratis</div>
+        <div class="stat-label">Kostenlos starten</div>
+      </div>
     </div>
-    <div class="card">
-      <h3>Freemium</h3>
-      <p>Kostenlos starten mit 10 Nachrichten/Tag. Premium für $4.99/Monat – jederzeit kündbar.</p>
-    </div>
-  </div>
-
-  <div class="disclaimer" style="margin-top: 40px;">
-    ⚠️ <strong>Wichtiger Hinweis:</strong> Klar im Kopf ist kein Medizinprodukt und ersetzt keine professionelle psychotherapeutische Behandlung. Bei einer diagnostizierten oder vermuteten Zwangsstörung wende dich an eine Fachperson.
-  </div>
-
-  <div class="crisis">
-    🆘 <strong>Bei akuten Krisen:</strong><br>
-    Schweiz: Dargebotene Hand – <strong>143</strong><br>
-    Deutschland: Telefonseelsorge – <strong>0800 111 0 111</strong> (kostenlos, 24h)<br>
-    Österreich: Telefonseelsorge – <strong>142</strong>
   </div>
 </section>
 
+<!-- FEATURES -->
+<section class="features" id="funktionen">
+  <div class="container">
+    <div class="features-header">
+      <span class="section-tag">Funktionen</span>
+      <h2 class="section-title">Alles was du brauchst</h2>
+      <p class="section-sub">Klar im Kopf kombiniert evidenzbasierte Therapietechniken mit moderner KI-Technologie.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>ERP-Übungen</h3>
+        <p>Exposition und Reaktionsverhinderung – die am besten erforschte Methode bei Zwangsstörungen. Schritt für Schritt, mit Timer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧘</div>
+        <h3>Achtsamkeit & ACT</h3>
+        <p>Gedankendefusion und Akzeptanz-Techniken helfen dir, Abstand von belastenden Gedanken zu gewinnen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Kognitive Techniken</h3>
+        <p>CBT-basierte Übungen um Denkmuster zu erkennen und zu verändern – strukturiert und verständlich erklärt.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Kurzübungen</h3>
+        <p>2–5 Minuten Übungen für akute Momente. Sofortige Hilfe wenn du sie brauchst, ohne lange Vorbereitung.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>KI-Chat mit Claro</h3>
+        <p>Dein persönlicher Begleiter – immer verfügbar, einfühlsam und auf OCD spezialisiert. Kein Ersatz für Therapie.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Datenschutz</h3>
+        <p>Chat-Nachrichten werden nicht gespeichert. Keine Registrierung, keine persönlichen Daten – vollständig anonym.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLARO -->
+<section class="claro-section" id="claro">
+  <div class="container">
+    <div class="claro-inner">
+      <div class="claro-text">
+        <span class="section-tag" style="background: rgba(108,99,255,0.3); color: #a89dff;">KI-Begleiter</span>
+        <h2 class="section-title">Lerne Claro kennen</h2>
+        <p class="section-sub">Claro ist dein einfühlsamer KI-Begleiter – spezialisiert auf Zwangsstörungen, verfügbar rund um die Uhr.</p>
+        <ul class="claro-features">
+          <li>Geführte ERP-Sessions in akuten Momenten</li>
+          <li>Grounding-Übungen und Psychoedukation</li>
+          <li>Basiert auf Claude AI von Anthropic</li>
+          <li>Keine Diagnosen, kein medizinischer Rat</li>
+          <li>Chat-Inhalte werden nicht gespeichert</li>
+        </ul>
+      </div>
+      <div class="chat-preview">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div>
+            <div class="chat-name">Claro</div>
+            <div class="chat-status">● Online</div>
+          </div>
+        </div>
+        <div class="chat-messages">
+          <div class="msg msg-user">Ich habe gerade einen starken Zwangsgedanken und weiss nicht wie ich damit umgehen soll.</div>
+          <div class="msg msg-claro">Ich bin froh, dass du dich meldest. Was du erlebst ist typisch für OCD – der Gedanke fühlt sich bedrohlich an, aber er sagt nichts über dich aus.<br><br>Möchtest du, dass wir zusammen eine kurze Grounding-Übung machen?</div>
+          <div class="msg msg-user">Ja, bitte.</div>
+          <div class="msg msg-claro">Gut. Schau dich um und nenne 5 Dinge die du siehst. Nimm dir Zeit – ich bin hier. 🌿</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="preise">
+  <div class="container">
+    <div class="pricing-header">
+      <span class="section-tag">Preise</span>
+      <h2 class="section-title">Kostenlos starten</h2>
+      <p class="section-sub">Klar im Kopf ist gratis nutzbar. Premium schaltet unbegrenzte Nachrichten mit Claro frei.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Gratis</div>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-period">für immer kostenlos</div>
+        <ul class="pricing-features">
+          <li>Voller Zugang zum Trainingsbereich</li>
+          <li>ERP, Achtsamkeit, CBT-Übungen</li>
+          <li>10 Nachrichten/Tag mit Claro</li>
+          <li>Keine Registrierung nötig</li>
+        </ul>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Empfohlen</div>
+        <div class="pricing-name">Premium</div>
+        <div class="pricing-price">$4.99</div>
+        <div class="pricing-period">pro Monat · jederzeit kündbar</div>
+        <ul class="pricing-features">
+          <li>Alles aus Gratis</li>
+          <li>Unbegrenzte Nachrichten mit Claro</li>
+          <li>Unterstützt die Weiterentwicklung</li>
+          <li>Jederzeit über App Store kündbar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-section">
+  <div class="disclaimer-box">
+    <p>⚠️ <strong>Wichtiger Hinweis:</strong> Klar im Kopf ist kein Medizinprodukt und ersetzt keine professionelle psychiatrische oder psychotherapeutische Behandlung. Die App vermittelt allgemeine psychoedukative Informationen und evidenzbasierte Selbsthilfetechniken. Bei einer diagnostizierten oder vermuteten Zwangsstörung wende dich an eine Fachperson.</p>
+  </div>
+  <div class="crisis-box">
+    <p>🆘 <strong>Bei akuten Krisen, Suizidgedanken oder Selbstverletzung:</strong><br>
+    Schweiz: Dargebotene Hand – <strong>143</strong> &nbsp;|&nbsp;
+    Deutschland: Telefonseelsorge – <strong>0800 111 0 111</strong> (kostenlos, 24h) &nbsp;|&nbsp;
+    Österreich: Telefonseelsorge – <strong>142</strong></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 Christoph Kaufmann</p>
-  <p style="margin-top: 10px;">
+  <div class="footer-logo">Klar im Kopf</div>
+  <div class="footer-tagline">Begleitung bei Zwangsstörungen</div>
+  <div class="footer-links">
     <a href="datenschutz.html">Datenschutz</a>
     <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
     <a href="support.html">Support</a>
-  </p>
+  </div>
+  <div class="footer-copy">© 2026 Christoph Kaufmann · Kanton Bern, Schweiz</div>
 </footer>
 
 </body>
